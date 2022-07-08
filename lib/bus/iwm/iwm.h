@@ -363,7 +363,7 @@ public:
   int iwm_send_packet(uint8_t *a);
   int iwm_send_packet_spi(uint8_t *a);
 
-  void test_spi();
+  void spi_fun();
 
   void setup();
   void service();

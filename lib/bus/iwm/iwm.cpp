@@ -914,6 +914,33 @@ void iwmBus::setup(void)
   Debug_printf("\r\nIWM GPIO configured");
 }
 
+/**
+ * SPI fun for Disk ][ ideas
+ * experiments:
+ * 1. set up SPI transmit with interrupt
+ * 2. queue up two transmits
+ * 3. add to queue during first transmit
+ * 4. overwrite DMA buffer during transmit
+ */
+
+void iwmBus::spi_fun()
+{
+  int test_len = 128;
+  void *p = heap_caps_aligned_alloc(32, test_len, MALLOC_CAP_DMA);
+  memset(p,0x44,test_len);
+
+  esp_err_t ret;
+  spi_transaction_t trans;
+  memset(&trans, 0, sizeof(spi_transaction_t));
+  trans.tx_buffer = p; // finally send the line data
+  trans.length = test_len * 8;   // Data length, in bits
+  trans.flags = 0;              // undo SPI_TRANS_USE_TXDATA flag
+
+  iwm_ack_set(); // ack is already enabled by the response to the command read
+  
+  iwm_ack_clr();
+}
+
 //*****************************************************************************
 // Function: encode_data_packet
 // Parameters: source id

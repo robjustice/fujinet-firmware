@@ -919,8 +919,8 @@ void iwmBus::setup(void)
  * experiments:
  * 1. set up SPI transmit with interrupt - done
  * 2. queue up two transmits - done
- * 3. add to queue during first transmit - working
- * 4. overwrite DMA buffer during transmit
+ * 3. add to queue during first transmit - done
+ * 4. overwrite DMA buffer during transmit - done
  */
 
 void iwmBus::spi_fun()
@@ -949,11 +949,13 @@ void iwmBus::spi_fun()
     // esp_err_t spi_device_queue_trans(spi_device_handle_t handle, spi_transaction_t *trans_desc, TickType_t ticks_to_wait)
     // https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/spi_master.html#_CPPv422spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t
     // esp_err_t spi_device_get_trans_result(spi_device_handle_t handle, spi_transaction_t **trans_desc, TickType_t ticks_to_wait)
-    fnSystem.delay_microseconds(50);
-    ret = spi_device_queue_trans(spi, t2, portMAX_DELAY);
+    fnSystem.delay_microseconds(450);
+    memset(p,0x55,test_len);
+    ret = spi_device_queue_trans(spi, t, portMAX_DELAY);
     ret = spi_device_get_trans_result(spi, &t, portMAX_DELAY);
-    ret = spi_device_get_trans_result(spi, &t2, portMAX_DELAY);
+    ret = spi_device_get_trans_result(spi, &t, portMAX_DELAY);
     iwm_ack_clr();
+    memset(p,0x44,test_len);
     fnSystem.delay(100);
   }
 

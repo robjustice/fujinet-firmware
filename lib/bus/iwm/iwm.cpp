@@ -917,7 +917,7 @@ void iwmBus::setup(void)
 /**
  * SPI fun for Disk ][ ideas
  * experiments:
- * 1. set up SPI transmit with interrupt
+ * 1. set up SPI transmit with interrupt - done
  * 2. queue up two transmits
  * 3. add to queue during first transmit
  * 4. overwrite DMA buffer during transmit
@@ -926,11 +926,15 @@ void iwmBus::setup(void)
 void iwmBus::spi_fun()
 {
   int test_len = 128;
+ 
+  iwm_ack_enable();
+
   void *p = heap_caps_aligned_alloc(32, test_len, MALLOC_CAP_DMA);
   memset(p,0x44,test_len);
 
   esp_err_t ret;
   spi_transaction_t trans;
+  spi_transaction_t *t = &trans;
   memset(&trans, 0, sizeof(spi_transaction_t));
   trans.tx_buffer = p; // finally send the line data
   trans.length = test_len * 8;   // Data length, in bits
@@ -939,10 +943,17 @@ void iwmBus::spi_fun()
   while(1)
   {
     iwm_ack_set(); // ack is already enabled by the response to the command read
-    ret = spi_device_transmit(spi, &trans);
+    ret = spi_device_queue_trans(spi, t, portMAX_DELAY);
+    // ret = spi_device_transmit(spi, &trans);
+    // esp_err_t spi_device_queue_trans(spi_device_handle_t handle, spi_transaction_t *trans_desc, TickType_t ticks_to_wait)
+    // https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/spi_master.html#_CPPv422spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t
+    // esp_err_t spi_device_get_trans_result(spi_device_handle_t handle, spi_transaction_t **trans_desc, TickType_t ticks_to_wait)
+    ret = spi_device_get_trans_result(spi, &t, portMAX_DELAY);
     iwm_ack_clr();
     fnSystem.delay(100);
   }
+
+    
 }
 
 //*****************************************************************************

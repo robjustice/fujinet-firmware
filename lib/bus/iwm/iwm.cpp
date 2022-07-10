@@ -936,9 +936,13 @@ void iwmBus::spi_fun()
   trans.length = test_len * 8;   // Data length, in bits
   trans.flags = 0;              // undo SPI_TRANS_USE_TXDATA flag
 
-  iwm_ack_set(); // ack is already enabled by the response to the command read
-  
-  iwm_ack_clr();
+  while(1)
+  {
+    iwm_ack_set(); // ack is already enabled by the response to the command read
+    ret = spi_device_transmit(spi, &trans);
+    iwm_ack_clr();
+    fnSystem.delay(100);
+  }
 }
 
 //*****************************************************************************

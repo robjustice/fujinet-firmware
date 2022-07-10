@@ -185,6 +185,9 @@ void main_setup()
     // IWM.addDevice(&theFuji, iwm_fujinet_type_t::FujiNet);
     theFuji.setup(&IWM);
     IWM.setup(); // save device unit SP address somewhere and restore it after reboot?
+#ifdef SPIFUN
+    IWM.spi_fun();
+#endif
 
 #endif /* BUILD_APPLE */
 

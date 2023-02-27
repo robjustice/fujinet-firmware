@@ -232,13 +232,21 @@ bool iwmBus::iwm_read_packet_timeout(int attempts, uint8_t *data, int &n)
   {
     if (!smartport.iwm_read_packet_spi(nn))
     {
-      iwm_ack_assert();
-      portENABLE_INTERRUPTS();
+      n = smartport.decode_data_packet(data); // need to check the checksum before we ACK
+      if (n != -1) // checksum ok
+      {
+        iwm_ack_assert();
+        portENABLE_INTERRUPTS();
 #ifdef DEBUG
-      print_packet(data);
+        print_packet(data);
 #endif
-      n = smartport.decode_data_packet(data);
-      return false;
+        return false;
+      }
+      else //checksum nok
+      {
+        smartport.spi_end(); // when this ends, we might be in the middle of receiving the next resent packet
+        smartport.req_wait_for_falling_timeout(1000000); // wait up to 100ms to catch REQ going low and line up with end of that resent packet, we'll get the next one
+      }
     } // if
   }
 #ifdef DEBUG

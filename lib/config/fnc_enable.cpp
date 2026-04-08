@@ -14,6 +14,8 @@ void fnConfig::store_device_slot_enable(uint8_t slot, bool enabled)
         case (6): _denable.device_6_enabled = enabled; break;
         case (7): _denable.device_7_enabled = enabled; break;
         case (8): _denable.device_8_enabled = enabled; break;
+        case (9): _denable.device_9_enabled = enabled; break;
+        case (10): _denable.device_10_enabled = enabled; break;
     }
     _dirty = true;
 }
@@ -90,6 +92,24 @@ void fnConfig::store_device_slot_enable_8(bool enable)
     }
 }
 
+void fnConfig::store_device_slot_enable_9(bool enable)
+{
+    if (_denable.device_9_enabled != enable)
+    {
+        _denable.device_9_enabled = enable;
+        _dirty = true;
+    }
+}
+
+void fnConfig::store_device_slot_enable_10(bool enable)
+{
+    if (_denable.device_10_enabled != enable)
+    {
+        _denable.device_10_enabled = enable;
+        _dirty = true;
+    }
+}
+
 bool fnConfig::get_device_slot_enable_1()
 {
     return _denable.device_1_enabled;
@@ -128,6 +148,16 @@ bool fnConfig::get_device_slot_enable_7()
 bool fnConfig::get_device_slot_enable_8()
 {
     return _denable.device_8_enabled;
+}
+
+bool fnConfig::get_device_slot_enable_9()
+{
+    return _denable.device_9_enabled;
+}
+
+bool fnConfig::get_device_slot_enable_10()
+{
+    return _denable.device_10_enabled;
 }
 
 bool fnConfig::get_apetime_enabled()
@@ -185,6 +215,10 @@ void fnConfig::_read_section_device_enable(std::stringstream &ss)
                 _denable.device_7_enabled = atoi(value.c_str());
             else if (strcasecmp(name.c_str(), "enable_device_slot_8") == 0)
                 _denable.device_8_enabled = atoi(value.c_str());
+            else if (strcasecmp(name.c_str(), "enable_device_slot_9") == 0)
+                _denable.device_9_enabled = atoi(value.c_str());
+            else if (strcasecmp(name.c_str(), "enable_device_slot_10") == 0)
+                _denable.device_10_enabled = atoi(value.c_str());
             else if (strcasecmp(name.c_str(), "enable_apetime") == 0)
                 _denable.apetime = atoi(value.c_str());        
             else if (strcasecmp(name.c_str(), "enable_pclink") == 0)

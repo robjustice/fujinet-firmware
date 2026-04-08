@@ -8,7 +8,11 @@
 #include "../../include/debug.h"
 
 #define MAX_HOST_SLOTS 8
+#ifdef BUILD_APPLE
+#define MAX_MOUNT_SLOTS 10
+#else
 #define MAX_MOUNT_SLOTS 8
+#endif
 #define MAX_PRINTER_SLOTS 4
 #define MAX_TAPE_SLOTS 1
 #define MAX_PB_SLOTS 16
@@ -250,6 +254,8 @@ public:
     bool get_device_slot_enable_6();
     bool get_device_slot_enable_7();
     bool get_device_slot_enable_8();
+    bool get_device_slot_enable_9();
+    bool get_device_slot_enable_10();
     void store_device_slot_enable(uint8_t slot, bool enabled);
     void store_device_slot_enable_1(bool enabled);
     void store_device_slot_enable_2(bool enabled);
@@ -259,6 +265,8 @@ public:
     void store_device_slot_enable_6(bool enabled);
     void store_device_slot_enable_7(bool enabled);
     void store_device_slot_enable_8(bool enabled);
+    void store_device_slot_enable_9(bool enabled);
+    void store_device_slot_enable_10(bool enabled);
 
     bool get_apetime_enabled();
     void store_apetime_enabled(bool enabled);
@@ -540,6 +548,8 @@ private:
         bool device_6_enabled = true;
         bool device_7_enabled = true;
         bool device_8_enabled = true;
+        bool device_9_enabled = true;
+        bool device_10_enabled = true;
         bool apetime = true;
         bool pclink = true;
     };

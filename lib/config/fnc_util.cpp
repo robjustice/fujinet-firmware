@@ -135,6 +135,12 @@ fnConfig::section_match fnConfig::_find_section_in_line(std::string &line, int &
                 return SECTION_BOS;
             }
 #endif
+#ifdef BUILD_RS232
+            else if (strncasecmp("Serial", s1.c_str(), 6) == 0)
+            {
+                return SECTION_SERIAL;
+            }
+#endif /* BUILD_RS232 */
         }
     }
     return SECTION_UNKNOWN;

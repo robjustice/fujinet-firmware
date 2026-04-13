@@ -82,7 +82,9 @@ iwmFuji::iwmFuji() : fujiDevice(MAX_A2DISK_DEVICES, IMAGE_EXTENSION, LOBBY_URL)
              this->send_reply_packet(err_result);
              this->fujicmd_reset();
          }},   // 0x00
-#ifndef DEV_RELAY_SLIP
+#ifdef DEV_RELAY_SLIP
+        { IWM_CTRL_CLEAR_ENSEEN, [this]()              { err_result = SP_ERR_NODRIVE; }},
+#else
         { IWM_CTRL_CLEAR_ENSEEN, [this]()              { diskii_xface.d2_enable_seen = 0; err_result = SP_ERR_NOERROR; }},
 #endif
 
@@ -114,6 +116,8 @@ iwmFuji::iwmFuji() : fujiDevice(MAX_A2DISK_DEVICES, IMAGE_EXTENSION, LOBBY_URL)
         { FUJICMD_GET_DEVICE6_FULLPATH, [this]()       { this->fujicmd_get_device_filename(status_code - 160); }},   // 0xA5
         { FUJICMD_GET_DEVICE7_FULLPATH, [this]()       { this->fujicmd_get_device_filename(status_code - 160); }},   // 0xA6
         { FUJICMD_GET_DEVICE8_FULLPATH, [this]()       { this->fujicmd_get_device_filename(status_code - 160); }},   // 0xA7
+        { FUJICMD_GET_DEVICE9_FULLPATH, [this]()       { this->fujicmd_get_device_filename(status_code - 160); }},   // 0xA8
+        { FUJICMD_GET_DEVICE10_FULLPATH, [this]()      { this->fujicmd_get_device_filename(status_code - 160); }},   // 0xA9
         { FUJICMD_GET_DIRECTORY_POSITION, [this]()     { this->fujicmd_get_directory_position(); }},           // 0xE5
         { FUJICMD_GET_HOST_PREFIX, [this]()            { }},                  // 0xE0
         { FUJICMD_GET_SCAN_RESULT, [this]()            { }},                  // 0xFC

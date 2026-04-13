@@ -87,6 +87,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         FN_DRIVE6HOST,
         FN_DRIVE7HOST,
         FN_DRIVE8HOST,
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        FN_DRIVE9HOST,
+        FN_DRIVE10HOST,
+#endif
 #ifndef ESP_PLATFORM
         FN_DRIVE1BROWSER,
         FN_DRIVE2BROWSER,
@@ -105,6 +109,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         FN_DRIVE6MOUNT,
         FN_DRIVE7MOUNT,
         FN_DRIVE8MOUNT,
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        FN_DRIVE9MOUNT,
+        FN_DRIVE10MOUNT,
+#endif
         FN_HOST1,
         FN_HOST2,
         FN_HOST3,
@@ -121,6 +129,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         FN_DRIVE6DEVICE,
         FN_DRIVE7DEVICE,
         FN_DRIVE8DEVICE,
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        FN_DRIVE9DEVICE,
+        FN_DRIVE10DEVICE,
+#endif
         FN_HOST1PREFIX,
         FN_HOST2PREFIX,
         FN_HOST3PREFIX,
@@ -207,6 +219,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         "FN_DRIVE6HOST",
         "FN_DRIVE7HOST",
         "FN_DRIVE8HOST",
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        "FN_DRIVE9HOST",
+        "FN_DRIVE10HOST",
+#endif
 #ifndef ESP_PLATFORM
         "FN_DRIVE1BROWSER",
         "FN_DRIVE2BROWSER",
@@ -225,6 +241,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         "FN_DRIVE6MOUNT",
         "FN_DRIVE7MOUNT",
         "FN_DRIVE8MOUNT",
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        "FN_DRIVE9MOUNT",
+        "FN_DRIVE10MOUNT",
+#endif
         "FN_HOST1",
         "FN_HOST2",
         "FN_HOST3",
@@ -241,6 +261,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
         "FN_DRIVE6DEVICE",
         "FN_DRIVE7DEVICE",
         "FN_DRIVE8DEVICE",
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+        "FN_DRIVE9DEVICE",
+        "FN_DRIVE10DEVICE",
+#endif
         "FN_HOST1PREFIX",
         "FN_HOST2PREFIX",
         "FN_HOST3PREFIX",
@@ -493,6 +517,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
     case FN_DRIVE6HOST:
     case FN_DRIVE7HOST:
     case FN_DRIVE8HOST:
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+    case FN_DRIVE9HOST:
+    case FN_DRIVE10HOST:
+#endif
         /* From what host is each disk is mounted on each Drive Slot? */
         drive_slot = tagid - FN_DRIVE1HOST;
         host_slot = Config.get_mount_host_slot(drive_slot);
@@ -529,6 +557,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
     case FN_DRIVE6MOUNT:
     case FN_DRIVE7MOUNT:
     case FN_DRIVE8MOUNT:
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+    case FN_DRIVE9MOUNT:
+    case FN_DRIVE10MOUNT:
+#endif
         /* What disk is mounted on each Drive Slot (and is it read-only or read-write)? */
         drive_slot = tagid - FN_DRIVE1MOUNT;
         host_slot = Config.get_mount_host_slot(drive_slot);
@@ -563,6 +595,10 @@ const string fnHttpServiceParser::substitute_tag(const string &tag)
     case FN_DRIVE6DEVICE:
     case FN_DRIVE7DEVICE:
     case FN_DRIVE8DEVICE:
+#if defined(BUILD_APPLE) && defined(ESP_PLATFORM)
+    case FN_DRIVE9DEVICE:
+    case FN_DRIVE10DEVICE:
+#endif
         /* What Dx: drive (if any rotation has occurred) does each Drive Slot currently map to? */
         drive_slot = tagid - FN_DRIVE1DEVICE;
         disk_id = (char) theFuji->get_disk_id(drive_slot);

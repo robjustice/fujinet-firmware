@@ -3,6 +3,7 @@
 
 #include "../disk.h"
 #include "bus.h"
+#include "global_types.h"
 #include "media.h"
 
 
@@ -12,13 +13,7 @@ private:
     MediaType *_media = nullptr;
   
     unsigned long blockNum=INVALID_SECTOR_VALUE;
-
-    //void transaction_continue(transState_t expectMoreData) override {};
-    void transaction_complete();
-    void transaction_error();
-    success_is_true transaction_get(void *data, size_t len);
-    void transaction_put(const void *data, size_t len, bool err=false);
-
+    
     void comlynx_process() override;
     void read_block(uint32_t block);
     void write_block(uint32_t block);

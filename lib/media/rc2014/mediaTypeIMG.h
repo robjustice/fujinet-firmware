@@ -5,6 +5,7 @@
 
 #include <utility>
 
+#include "global_types.h"
 #include "mediaType.h"
 
 /**
@@ -35,10 +36,10 @@ public:
     };
 
 public:
-    success_is_true read(uint16_t sectornum, uint16_t *readcount) override;
-    success_is_true write(uint16_t sectornum, bool verify) override;
+    error_is_true read(uint16_t sectornum, uint16_t *readcount) override;
+    error_is_true write(uint16_t sectornum, bool verify) override;
 
-    success_is_true format(uint16_t *responsesize) override;
+    error_is_true format(uint16_t *responsesize) override;
 
     mediatype_t mount(FILE *f, uint32_t disksize, mediatype_t disk_type) override;
 

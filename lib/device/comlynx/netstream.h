@@ -1,5 +1,5 @@
-#ifndef UDPSTREAM_H
-#define UDPSTREAM_H
+#ifndef NETSTREAM_H
+#define NETSTREAM_H
 
 #include "bus.h"
 
@@ -7,19 +7,19 @@
 
 #define LEDC_TIMER_RESOLUTION  LEDC_TIMER_1_BIT
 
-#define UDPSTREAM_BUFFER_SIZE 8192
-#define UDPSTREAM_PACKET_TIMEOUT 5000
+#define NETSTREAM_BUFFER_SIZE 8192
+#define NETSTREAM_PACKET_TIMEOUT 5000
 #define MIDI_PORT 5004
 #define MIDI_BAUDRATE 31250
 
-class lynxUDPStream : public virtualDevice
+class lynxNetStream : public virtualDevice
 {
 private:
-    fnUDP udpStream;
+    fnUDP netStream;
     systemBus *_comlynx_bus = nullptr;
 
-    uint8_t buf_net[UDPSTREAM_BUFFER_SIZE];
-    uint8_t buf_stream[UDPSTREAM_BUFFER_SIZE];
+    uint8_t buf_net[NETSTREAM_BUFFER_SIZE];
+    uint8_t buf_stream[NETSTREAM_BUFFER_SIZE];
 
     uint8_t buf_stream_index=0;
 
@@ -29,9 +29,9 @@ private:
     void redeye_remap_game_id();                        // remap game_id to provide a unique game_id
 
 public:
-    bool udpstreamActive = false; // If we are in udpstream mode or not
-    in_addr_t udpstream_host_ip = IPADDR_NONE;
-    int udpstream_port;
+    bool netstreamActive = false; // If we are in netstream mode or not
+    in_addr_t netstream_host_ip = IPADDR_NONE;
+    int netstream_port;
     bool redeye_mode = true;        // redeye UDP stream mode
     bool redeye_logon = true;       // in redeye logon phase
     uint16_t redeye_game = 0;       // redeye game ID
@@ -40,11 +40,11 @@ public:
     uint16_t new_game_id = 0xFFFF;  // the new game ID to remap, set from Web GUI
 
 
-    void comlynx_enable_udpstream();  // setup udpstream
-    void comlynx_disable_udpstream(); // stop udpstream
-    void comlynx_handle_udpstream();  // Handle incoming & outgoing data for udpstream
+    void comlynx_enable_netstream();  // setup netstream
+    void comlynx_disable_netstream(); // stop netstream
+    void comlynx_handle_netstream();  // Handle incoming & outgoing data for netstream
 
-    void comlynx_enable_redeye();     // setup redeye mode overtop udpstream
+    void comlynx_enable_redeye();     // setup redeye mode overtop netstream
     void comlynx_disable_redeye();    // disable redeye mode
 
 };
